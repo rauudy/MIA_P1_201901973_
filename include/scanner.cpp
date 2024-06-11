@@ -60,13 +60,15 @@ void scanner::start()
     
 void scanner::functions(string token, vector<string> tks)
 {
-    if (compare(token, "MKDISK")) // mkdisk -s=10 -path=/home/rauudy/Documentos/Archivos/hola.dk
+    if (compare(token, "MKDISK")) // mkdisk -s=10 -path=/home/rauudy/Documentos/Archivos/hola.dsk
+    // mkdisk -s=10 -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
     {
         cout << "FUNCION MKDISK" << endl;
         disco.mkdisk(tks); // [-size=10, -u=m, -path=/home/hola.dk]
     }else if(compare(token, "RMDISK")){
         cout << "FUNCION RMDISK" << endl;
-        //disco.rmdisk(tks);
+        disco.rmdisk(tks);
+    // rmdisk -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
     }else if(compare(token, "FDISK")){
         cout << "FUNCION FDISK" << endl;
         // disco.fdisk(tks);
