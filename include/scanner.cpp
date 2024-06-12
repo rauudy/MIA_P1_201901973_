@@ -60,8 +60,9 @@ void scanner::start()
     
 void scanner::functions(string token, vector<string> tks)
 {
-    if (compare(token, "MKDISK")) // mkdisk -s=10 -path=/home/rauudy/Documentos/Archivos/hola.dsk
-    // mkdisk -s=10 -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
+    if (compare(token, "MKDISK")) // mkdisk -s=10 -u=m -path=/home/rauudy/Documentos/Archivos/Pruebas/p1.dsk
+                                  // mkdisk -s=10 -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
+                                  // mkdisk -path=/home/rauudy/Documentos/Archivos/Pruebas/hola.dsk -s=10 
     {
         cout << "FUNCION MKDISK" << endl;
         disco.mkdisk(tks); // [-size=10, -u=m, -path=/home/hola.dk]
@@ -69,9 +70,10 @@ void scanner::functions(string token, vector<string> tks)
         cout << "FUNCION RMDISK" << endl;
         disco.rmdisk(tks);
     // rmdisk -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
+    // rmdisk -path=/home/rauudy/Documentos/Archivos/Pruebas/hola.dsk
     }else if(compare(token, "FDISK")){
         cout << "FUNCION FDISK" << endl;
-        // disco.fdisk(tks);
+        disco.fdisk(tks);
     }else if(compare(token, "MOUNT")){
         cout << "FUNCION MOUNT" << endl;
         // mount.mount(tks);

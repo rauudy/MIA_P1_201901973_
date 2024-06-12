@@ -209,22 +209,24 @@ void Disk::rmdisk(vector<string> tokens){
     if (error){
         return;
     }
-
     if(path.empty()){
         scan.errores("RMDISK","se requiere parametro Path para este comando");
     }else{
-        FILE *file = fopen(path.c_str(), "r");
-        if(file == NULL){
-            scan.errores("RMDISK","El disco no existe");
-            return;
+        if(scan.confirmar("Desea eliminar el disco? ")){
+            FILE *file = fopen(path.c_str(), "r");
+            if(file == NULL){
+                scan.errores("RMDISK","El disco no existe");
+                return;
+            }
+            fclose(file);
+            string comando = "rm \"" + path + "\"";
+            system(comando.c_str());
+            scan.respuesta("RMDISK","Disco eliminado exitosamente");
         }
-        fclose(file);
-        string comando = "rm \"" + path + "\"";
-        system(comando.c_str());
-        scan.respuesta("RMDISK","Disco eliminado exitosamente");
     } 
 }
 
+// fdisk -s=300 -path=/home/rauudy/Documentos/Archivos/Pruebas/hola.dsk -name=Particion1
 void Disk::fdisk(vector<string> context){
     bool dlt = false;
     for (string current : context) {
