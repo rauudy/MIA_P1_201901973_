@@ -50,6 +50,10 @@ void Disk::mkdisk(vector<string> tokens){
         {
             if (path.empty())
             {
+                if (token.substr(0, 1) == "\"")
+                {
+                    token = token.substr(1, token.length() - 2);
+                }
                 path = token;
             }else{
                 scan.errores("MKDISK","parametro PATH repetido en el comando"+tk);
@@ -212,6 +216,10 @@ void Disk::rmdisk(vector<string> tokens){
     if(path.empty()){
         scan.errores("RMDISK","se requiere parametro Path para este comando");
     }else{
+        if (path.substr(0, 1) == "\"")
+        {
+            path = path.substr(1, path.length() - 2);
+        }
         if(scan.confirmar("Desea eliminar el disco? ")){
             FILE *file = fopen(path.c_str(), "r");
             if(file == NULL){
