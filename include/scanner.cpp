@@ -78,12 +78,13 @@ void scanner::functions(string token, vector<string> tks)
         cout << "FUNCION MOUNT" << endl;
     // mkdisk -s=3000 -u=m -path=/home/rauudy/Pruebas/Disco10.dsk
     // fdisk -s=300 -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1
-    // mount -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1 #id=963Disco1 
+    // mount -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1 #id=001Disco1 > 651a , 651b
+    // con un +1 da 652a, 652b, 652c
     // FUNCIONA
         mount.mount(tks);
     }else if(compare(token, "UNMOUNT")){
         cout << "FUNCION *UNMOUNT" << endl;
-        // unmount -id=651a
+        // unmount -id=631a
         // Funciona cambiar los numeros
         mount.unmount(tks);
     }else if(compare(token, "MKFS")){
