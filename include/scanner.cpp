@@ -1,6 +1,6 @@
 #include "../lib/scanner.h"
 #include "../lib/disco.h"
-// #include "../lib/mount.h"
+#include "../lib/mount.h"
 // #include "../lib/report.h"
 // #include "../lib/filesystem.h"
 // #include "../lib/users.h"
@@ -16,7 +16,7 @@
 using namespace std;
 
 Disk disco;
-// Mount mount;
+Mount mount;
 // Report report;
 // Users user;
 // Shared shared;
@@ -76,10 +76,16 @@ void scanner::functions(string token, vector<string> tks)
         disco.fdisk(tks);
     }else if(compare(token, "MOUNT")){
         cout << "FUNCION MOUNT" << endl;
-        // mount.mount(tks);
+    // mkdisk -s=3000 -u=m -path=/home/rauudy/Pruebas/Disco10.dsk
+    // fdisk -s=300 -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1
+    // mount -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1 #id=963Disco1 
+    // FUNCIONA
+        mount.mount(tks);
     }else if(compare(token, "UNMOUNT")){
         cout << "FUNCION *UNMOUNT" << endl;
-        //mount.unmount(tks);
+        // unmount -id=651a
+        // Funciona cambiar los numeros
+        mount.unmount(tks);
     }else if(compare(token, "MKFS")){
         cout << "FUNCION MKFS" << endl;
         //FileSystem fileSystem = FileSystem(mount);
