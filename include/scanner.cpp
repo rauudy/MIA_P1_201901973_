@@ -1,8 +1,8 @@
 #include "../lib/scanner.h"
 #include "../lib/disco.h"
 #include "../lib/mount.h"
+#include "../lib/filesystem.h"
 // #include "../lib/report.h"
-// #include "../lib/filesystem.h"
 // #include "../lib/users.h"
 // #include "../lib/filemanager.h"
 #include <iostream>
@@ -89,9 +89,8 @@ void scanner::functions(string token, vector<string> tks)
         mount.unmount(tks);
     }else if(compare(token, "MKFS")){
         cout << "FUNCION MKFS" << endl;
-        //FileSystem fileSystem = FileSystem(mount);
-        //fileSystem.mkfs(tks);
-
+        FileSystem fileSystem = FileSystem(mount);
+        fileSystem.mkfs(tks);
     }else if(compare(token, "LOGIN")){
         cout << "FUNCION LOGIN" << endl;
         if(logued){
@@ -147,6 +146,7 @@ void scanner::functions(string token, vector<string> tks)
         }
         string p;
         cout << "FUNCION MKDIR" << endl;
+        //FileSystem fileSystem = FileSystem(mount);
         //Structs::Partition partition = mount.getmount(user.logged.id, &p);
         //filemanager.mkdir(tks, partition, p);
     }else if(compare(token, "REP")){
