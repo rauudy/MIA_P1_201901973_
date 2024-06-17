@@ -235,7 +235,7 @@ void FileSystem::ext3(Structs::Superblock spr, Structs::Partition p, int n, stri
     inode.i_perm = 664;
     inode.i_block[0] = 0;
 
-    strcpy(journaling.content, "carpeta base");
+    strcpy(journaling.content, "/home/rauu/archivos");
     strcpy(journaling.path, "/");
     journaling.type = 0;
     strcpy(journaling.operation, "mkdir");

@@ -1,0 +1,32 @@
+#exec -path=/home/diians_23/entrada.scripts
+#CREACION DE DISCOS
+mkdisk -s=20 -u=m -path=/home/rauu/archivos/Discos/Disco1.dsk
+#mkdisk -s=20 -u=m -path=/home/rauu/archivos/Discos/Disco1.dsk
+Mkdisk -u=k -s=51200 -path=/home/rauu/archivos/Discos/Disco2.dsk -f=BF
+mkdisk -s=10 -path=/home/rauu/archivos/Discos/Disco3.dsk
+mkdisk -s=51200 -path="/home/rauu/archivos/Discos/mis rauu/archivos/Disco4.dsk" -u=K
+mkdisk -s=20 -path="/home/rauu/archivos/Discos/mis rauu/archivos/Disco5.dsk" -u=M -f=WF
+#Deberia dar error
+mkdisk -param=x -s=30 -path=/home/rauu/archivos/rauu/archivos/fase1/Disco.dsk
+
+#ELIMINACION DE DISCOS
+#El primero deberia dar error
+rmdisk -path=/home/rauu/archivos/Disco3.dsk
+rmdisk -path=/home/rauu/archivos/Discos/Disco3.dsk
+RMdisk -path="/home/rauu/archivos/Discos/mis rauu/archivos/Disco4.dsk"
+
+
+#CREACION DE PARTICION
+fdisk -type=P -u=K -name=Part1 -s=7680 -path=/home/rauu/archivos/Discos/Disco1.dsk -f=BF
+#MOUNT
+mount -path=/home/rauu/archivos/Discos/Disco1.dsk -name=Part1 #731a
+#CREACION DE SISTEMA DE rauu/ARCHIVOS
+mkfs -type=fast -id=731a -fs=3fs
+
+#------------------------REPORTES 1----------------
+rep -id=731a -path="/home/rauu/archivos/reportes/reporte1_sb.jpg" -name=sb
+rep -id=731a -path="/home/rauu/archivos/reportes/reporte1_tree.jpg" -name=tree
+pause
+
+#LOGIN
+login -usr=root -pass=123 -id=731a

@@ -1,13 +1,13 @@
-mkdisk -s=3000 -u=K -path=/home/rauudy/Pruebas/Disco1.dsk
-fdisk -s=300 -path=/home/rauudy/Pruebas/Disco1.dsk -name=Particion1
-mkdisk -path=/home/rauudy/Pruebas/Disco2.dsk -u=K -s=3000
-fdisk -t=E -path=/home/rauudy/Pruebas/Disco2.dsk -u=K -name=Particion2 -s=300
-mkdisk -s=5 -u=M -path="/home/rauudy/Pruebas/mis discos/Disco3.dsk"
-mkdisk -s=10 -path="/home/rauudy/Pruebas/mis discos/Disco4.dsk"
-rmdisk -path="/home/rauudy/Pruebas/mis discos/Disco4.dsk"
-mkdisk -s=3000 -u=K -path=/home/rauudy/Pruebas/Disco6.dsk 
-fdisk -s=300 -path=/home/rauudy/Pruebas/Disco6.dsk -name=Particion1
-fdisk -t=E -path=/home/rauudy/Pruebas/Disco6.dsk -u=K -name=Particion2 -s=300
-fdisk -s=1 -t=L -u=k -f=BF -path=/home/rauudy/Pruebas/Disco6.dsk -name=Particion3
-fdisk -delete=fast -name=Particion1 -path=/home/rauudy/Pruebas/Disco1.dsk
-fdisk -add=1 -u=K -path=/home/rauudy/Pruebas/Disco6.dsk -name=Particion1
+mkdisk -s=3000 -u=K -path=/home/rauu/archivos/pruebas/Disco1.dsk
+fdisk -s=300 -path=/home/rauu/archivos/pruebas/Disco1.dsk -name=Particion1
+mkdisk -path=/home/rauu/archivos/pruebas/Disco2.dsk -u=K -s=3000
+fdisk -t=E -path=/home/rauu/archivos/pruebas/Disco2.dsk -u=K -name=Particion2 -s=300
+mkdisk -s=5 -u=M -path="/home/rauu/archivos/pruebas/mis discos/Disco3.dsk"
+mkdisk -s=10 -path="/home/rauu/archivos/pruebas/mis discos/Disco4.dsk"
+rmdisk -path="/home/rauu/archivos/pruebas/mis discos/Disco4.dsk"
+mkdisk -s=3000 -u=K -path=/home/rauu/archivos/pruebas/Disco6.dsk 
+fdisk -s=300 -path=/home/rauu/archivos/pruebas/Disco6.dsk -name=Particion1
+fdisk -t=E -path=/home/rauu/archivos/pruebas/Disco6.dsk -u=K -name=Particion2 -s=300
+fdisk -s=1 -t=L -u=k -f=BF -path=/home/rauu/archivos/pruebas/Disco6.dsk -name=Particion3
+fdisk -delete=fast -name=Particion1 -path=/home/rauu/archivos/pruebas/Disco1.dsk
+fdisk -add=1 -u=K -path=/home/rauu/archivos/pruebas/Disco6.dsk -name=Particion1

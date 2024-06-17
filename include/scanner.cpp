@@ -2,9 +2,9 @@
 #include "../lib/disco.h"
 #include "../lib/mount.h"
 #include "../lib/filesystem.h"
-// #include "../lib/report.h"
-// #include "../lib/users.h"
-// #include "../lib/filemanager.h"
+#include "../lib/report.h"
+#include "../lib/users.h"
+#include "../lib/filemanager.h"
 #include <iostream>
 #include <stdlib.h>
 #include <locale>
@@ -17,10 +17,10 @@ using namespace std;
 
 Disk disco;
 Mount mount;
-// Report report;
-// Users user;
-// Shared shared;
-// FileManager filemanager;
+Report report;
+Users user;
+Shared shared;
+FileManager filemanager;
 bool logued = false;
 scanner::scanner()
 {
@@ -33,29 +33,38 @@ void Clear()
 void scanner::start()
 {
     system("clear");
-        cout << "------------------------------INGRESE UN COMANDO------------------------------\n" << endl;
-        cout << "--------------------------------exit para salir-------------------------------\n" << endl;
-        cout << ">>";
-        while (true)
+    // cout << "------------------------------INGRESE UN COMANDO------------------------------\n" << endl;
+    // cout << "--------------------------------exit para salir-------------------------------\n" << endl;
+    // cout << ">>";
+    cout << "╔═════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║                            INGRESE UN COMANDO                               ║" << endl;
+    cout << "╠═════════════════════════════════════════════════════════════════════════════╣" << endl;
+    cout << "║                             'exit' para salir                               ║" << endl;
+    cout << "╚═════════════════════════════════════════════════════════════════════════════╝" << endl;
+    cout << ">> ";
+    while (true)
+    {
+        string texto;
+        getline(cin, texto);
+        Clear();
+        if (compare(texto, "exit"))
         {
-            string texto;
-            getline(cin, texto);
-            Clear();
-            if (compare(texto, "exit"))
-            {
-                break;
-            }
-            string tk = token(texto); // mkdisk
-            texto.erase(0,tk.length()+1);
-            vector<string> tks = split_tokens(texto); //[-size=10, -u=m, -path=/home/hola.dk]
-            functions(tk, tks);
-            cout << "\nPresione Enter para continuar...." << endl;
-            getline(cin,texto);
-            Clear();
-            cout << "------------------------------INGRESE UN COMANDO------------------------------\n" << endl;
-            cout << "--------------------------------exit para salir-------------------------------\n" << endl;
-            cout << ">>";
+            break;
         }
+        string tk = token(texto); // mkdisk
+        texto.erase(0,tk.length()+1);
+        vector<string> tks = split_tokens(texto); //[-size=10, -u=m, -path=/home/hola.dk]
+        functions(tk, tks);
+        cout << "\nPresione Enter para continuar...." << endl;
+        getline(cin,texto);
+        Clear();
+        cout << "╔═════════════════════════════════════════════════════════════════════════════╗" << endl;
+        cout << "║                            INGRESE UN COMANDO                               ║" << endl;
+        cout << "╠═════════════════════════════════════════════════════════════════════════════╣" << endl;
+        cout << "║                             'exit' para salir                               ║" << endl;
+        cout << "╚═════════════════════════════════════════════════════════════════════════════╝" << endl;
+        cout << ">> ";
+    }
 }
     
 void scanner::functions(string token, vector<string> tks)
@@ -83,7 +92,8 @@ void scanner::functions(string token, vector<string> tks)
     // FUNCIONA
         mount.mount(tks);
     }else if(compare(token, "UNMOUNT")){
-        cout << "FUNCION *UNMOUNT" << endl;
+        cout << "FUNCION UNMOUNT" << endl;
+        //mount.unmount(tks);
         // unmount -id=631a
         // Funciona cambiar los numeros
         mount.unmount(tks);
@@ -94,18 +104,18 @@ void scanner::functions(string token, vector<string> tks)
     }else if(compare(token, "LOGIN")){
         cout << "FUNCION LOGIN" << endl;
         if(logued){
-            //shared.handler("LOGIN", " ya existe una sesion abierta");
+            shared.handler("LOGIN", " ya existe una sesion abierta");
             return;
         }
-        //logued = user.login(tks,mount);
+        logued = user.login(tks,mount);
 
     }else if(compare(token, "LOGOUT")){
         cout << "FUNCION LOGOUT" << endl;
         if(!logued){
-        //    shared.handler("LOGOUT", " debe de iniciar sesion primero");
+            shared.handler("LOGOUT", " debe de iniciar sesion primero");
             return;
         }
-        //logued = user.logout();
+        logued = user.logout();
 
     }else if(compare(token, "MKGRP")){
         if(!logued){
@@ -151,12 +161,15 @@ void scanner::functions(string token, vector<string> tks)
         //filemanager.mkdir(tks, partition, p);
     }else if(compare(token, "REP")){
         cout << "FUNCION REPORTES" << endl;
-        //report.generar(tks, mount);
+        report.generar(tks, mount);
     }else if(compare(token, "EXEC")){
         cout << "FUNCION EXEC" << endl;
         funcion_excec(tks);
     }else if(compare(token.substr(0,1),"#")){
         respuesta("COMENTARIO",token);
+    }else if(compare(token, "PAUSE")){
+    }else if(compare(token, "CLS")){
+        Clear();
     }else{
         errores("SYSTEM","El comando ingresado no se reconoce en el sistema \""+token+"\"");
     }

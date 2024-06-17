@@ -1,0 +1,4 @@
+mkdisk -s=20 -u=m -path=/home/rauu/archivos/Dis1.dsk
+fdisk -t=P -u=K -name=Part1 -s=7680 -path=/home/rauu/archivos/Dis1.dsk -f=BF
+mount -path=/home/rauu/archivos/Dis1.dsk -name=Part1
+login -usr=root -pass=123 -id=731a
