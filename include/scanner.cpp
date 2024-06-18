@@ -127,38 +127,38 @@ void scanner::functions(string token, vector<string> tks)
 
     }else if(compare(token, "RMGRP")){
         if(!logued){
-        //    shared.handler("RMGRP", " debe de iniciar sesion primero");
+            shared.handler("RMGRP", " debe de iniciar sesion primero");
             return;
         }
         cout << "FUNCION RMGRP" << endl;
-        //user.grp(tks,"RM");
+        user.grp(tks,"RM");
 
     }else if(compare(token, "MKUSR")){
         if(!logued){
-        //    shared.handler("MKUSR", " debe de iniciar sesion primero");
+            shared.handler("MKUSR", " debe de iniciar sesion primero");
             return;
         }
         cout << "FUNCION MKUSR" << endl;
-        //user.usr(tks,"MK");
+        user.usr(tks,"MK");
 
     }else if(compare(token, "RMUSR")){
         if(!logued){
-        //    shared.handler("RMUSR", " debe de iniciar sesion primero");
+            shared.handler("RMUSR", " debe de iniciar sesion primero");
             return;
         }
         cout << "FUNCION RMUSR" << endl;
-        //user.usr(tks,"RM");
+        user.usr(tks,"RM");
 
     }else if(compare(token, "MKDIR")){
         if(!logued){
-        //    shared.handler("MKDIR", " debe de iniciar sesion primero");
+            shared.handler("MKDIR", " debe de iniciar sesion primero");
             return;
         }
         string p;
         cout << "FUNCION MKDIR" << endl;
-        //FileSystem fileSystem = FileSystem(mount);
-        //Structs::Partition partition = mount.getmount(user.logged.id, &p);
-        //filemanager.mkdir(tks, partition, p);
+        FileSystem fileSystem = FileSystem(mount);
+        Structs::Partition partition = mount.getmount(user.logged.id, &p);
+        filemanager.mkdir(tks, partition, p);
     }else if(compare(token, "REP")){
         cout << "FUNCION REPORTES" << endl;
         report.generar(tks, mount);
