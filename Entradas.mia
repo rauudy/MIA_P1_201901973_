@@ -1,4 +1,15 @@
-mkdisk -s=20 -u=m -path=/home/rauu/archivos/Dis1.dsk
-fdisk -t=P -u=K -name=Part1 -s=7680 -path=/home/rauu/archivos/Dis1.dsk -f=BF
-mount -path=/home/rauu/archivos/Dis1.dsk -name=Part1
+mkdisk -s=20 -u=m -path=/home/rauudy/archivos/Discos/Disco1.dsk
+
+fdisk -type=P -u=K -name=Part1 -s=7680 -path=/home/rauudy/archivos/Discos/Disco1.dsk -f=BF
+
+mount -path=/home/rauudy/archivos/Discos/Disco1.dsk -name=Part1 #731a
+
+mkfs -type=full -id=731a 
+
+rep -id=731a -path="/home/rauudy/archivos/reportes/reporte1_sb.jpg" -name=sb
+rep -id=731a -path="/home/rauudy/archivos/reportes/reporte1_tree.jpg" -name=tree
+
 login -usr=root -pass=123 -id=731a
+
+# mkgrp -name=usuarios
+# mkgrp -name="grupo 1"

@@ -105,7 +105,7 @@ vector<string> Users::getElements(string txt, char c) {
 }
 
 bool Users::logout() {
-    shared.response("LOGOUT", "hasta luego " + logged.user);
+    shared.response("LOGOUT", "Saliendo Usuario:" + logged.user);
     logged = User();
     return false;
 }

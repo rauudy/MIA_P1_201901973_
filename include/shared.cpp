@@ -69,6 +69,6 @@ bool Shared::confirmation(string title, string message)
 
 void Shared::response(string title, string message)
 {
-    cout << "\033[0;32m (" + title + "): \033[0m"
-        << message << endl;
+    // cout << "\033[0;32m (" + title + "): \033[0m"<< message << endl;
+    cout << "\033[1;32;47m(" + title + ")~~> \033[0m"<< message << endl;
 }

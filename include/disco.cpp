@@ -469,7 +469,7 @@ void Disk::generatepartition(string s,string u, string p, string t, string f, st
                 fwrite(&ebr, sizeof(Structs::EBR), 1, bfile);
             }
             fclose(bfile);
-            shared.response("FDISK", "partición creada correctamente");
+            scan.respuesta("FDISK", "partición creada correctamente");
         }
     }
     catch (invalid_argument &e) {

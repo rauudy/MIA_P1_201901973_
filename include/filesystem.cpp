@@ -71,6 +71,7 @@ void FileSystem::mkfs(string id, string t, string fs) {
         } else {
             spr.s_filesystem_type = 3;
             ext3(spr, partition, n, p);
+            // cout << "ext3" << endl;
         }
 
         shared.response("MKFS", "formateo realizado con éxito");
@@ -235,7 +236,7 @@ void FileSystem::ext3(Structs::Superblock spr, Structs::Partition p, int n, stri
     inode.i_perm = 664;
     inode.i_block[0] = 0;
 
-    strcpy(journaling.content, "/home/rauu/archivos");
+    strcpy(journaling.content, "carpeta base");
     strcpy(journaling.path, "/");
     journaling.type = 0;
     strcpy(journaling.operation, "mkdir");

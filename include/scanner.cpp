@@ -119,11 +119,11 @@ void scanner::functions(string token, vector<string> tks)
 
     }else if(compare(token, "MKGRP")){
         if(!logued){
-        //    shared.handler("MKGRP", " debe de iniciar sesion primero");
+            shared.handler("MKGRP", " debe de iniciar sesion primero");
             return;
         }
         cout << "FUNCION MKGRP" << endl;
-        //user.grp(tks,"MK");
+        user.grp(tks,"MK");
 
     }else if(compare(token, "RMGRP")){
         if(!logued){
@@ -297,8 +297,13 @@ void scanner::errores(string operacion, string mensaje){
 }
 
 void scanner::respuesta(string operacion, string mensaje){
-    
-    cout << "\033[0;42m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
+    if (compare(operacion, "COMENTARIO"))
+    {
+        cout << "\033[1;35;44m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
+        return;
+    }else{
+        cout << "\033[1;32;47m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
+    }
 }
 
 bool scanner::confirmar(string mensaje){

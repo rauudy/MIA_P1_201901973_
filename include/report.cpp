@@ -1,9 +1,11 @@
-#include "../lib/report.h"
-#include "../lib/disco.h"
-#include <iostream>
-#include <stdlib.h>
-#include "string"
-#include <locale>
+#include "../lib/report.h" // Para usar Report
+#include "../lib/disco.h" // Para usar Disco
+#include <iostream> // Para usar cout
+#include <stdlib.h> // Para usar system()
+#include "string" // Para usar string
+#include <locale>  // Para usar setlocale()
+#include <cctype>  // Para usar isprint()
+#include <cstring> // Para usar strlen()
 
 using namespace std;
 
@@ -957,7 +959,32 @@ void Report::tree(string p, string id) {
                                                                  "<tr><td BGCOLOR=\"#90EE90\">B_NAME</td><td BGCOLOR=\"#90EE90\" >B_INODO</td></tr>\n";
                         for (int k = 0; k < 4; ++k) {
                             string ctmp;
-                            ctmp += foldertmp.b_content[k].b_name;
+                            //std::string str_name(foldertmp.b_content[k].b_name);
+                            //std::string utf8_string(foldertmp.b_content[k].b_name);
+                            //ctmp += utf8_string;
+                            //ctmp += foldertmp.b_content[k].b_name;
+
+                            
+                            // for (int i = 0; i < 12 && foldertmp.b_content[k].b_name[i] != '\0'; ++i) {
+                            //     ctmp += foldertmp.b_content[k].b_name[i];
+                            //     //std::cout << foldertmp.b_content[k].b_name[i] << ' ';
+                            // }
+                            // cout << "------>>Qué tienes: " << ctmp << endl;
+
+                            // Obtener la longitud efectiva de la cadena
+                            size_t length = std::strlen(foldertmp.b_content[k].b_name);
+                            // Recorrer el arreglo de caracteres
+                            for (size_t i = 0; i < length; ++i) {
+                                if (std::isprint(static_cast<unsigned char>(foldertmp.b_content[k].b_name[i]))) {
+                                    //std::cout << foldertmp.b_content[k].b_name[i] << ' ';
+                                    ctmp += foldertmp.b_content[k].b_name[i];
+                                } 
+                            }
+                            // cout << "------>>Qué tienes: " << ctmp << endl;
+                            // std::cout << std::endl;
+                            if(ctmp == "&"){
+                                ctmp = " ";
+                            }
                             content += "<tr>\n"
                                        "<td>" + ctmp + "</td>\n"
                                                        "<td port=\"" + to_string(k) + "\">" +
@@ -1015,8 +1042,8 @@ void Report::tree(string p, string id) {
         outfile.close();
         string function = "dot -Tjpg " + pd + " -o " + p;
         system(function.c_str());
-        function = "rm \"" + pd + "\"";
-        system(function.c_str());
+        // function = "rm \"" + pd + "\"";
+        // system(function.c_str());
         shared.response("REPORT", "generado correctamente");
     } catch (exception &e) {
         shared.handler("REPORT", e.what());
