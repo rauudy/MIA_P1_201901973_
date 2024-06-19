@@ -36,12 +36,12 @@ void scanner::start()
     // cout << "------------------------------INGRESE UN COMANDO------------------------------\n" << endl;
     // cout << "--------------------------------exit para salir-------------------------------\n" << endl;
     // cout << ">>";
-    cout << "╔═════════════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "║                            INGRESE UN COMANDO                               ║" << endl;
-    cout << "╠═════════════════════════════════════════════════════════════════════════════╣" << endl;
-    cout << "║                             'exit' para salir                               ║" << endl;
-    cout << "╚═════════════════════════════════════════════════════════════════════════════╝" << endl;
-    cout << ">> ";
+    cout << "\033[48;5;13;38;5;15m" << "╔═════════════════════════════════════════════════════════════════════════════╗" << "\033[0m" << endl;
+    cout << "\033[48;5;13;38;5;15m" << "║                            INGRESE UN COMANDO                               ║" << "\033[0m" << endl;
+    cout << "\033[48;5;13;38;5;15m" << "╠═════════════════════════════════════════════════════════════════════════════╣" << "\033[0m" << endl;
+    cout << "\033[48;5;13;38;5;15m" << "║                             'exit' para salir                               ║" << "\033[0m" << endl;
+    cout << "\033[48;5;13;38;5;15m" << "╚═════════════════════════════════════════════════════════════════════════════╝" << "\033[0m" << endl;
+    cout << "\033[38;5;13m" << ">> " << "\033[0m" ;
     while (true)
     {
         string texto;
@@ -58,12 +58,12 @@ void scanner::start()
         cout << "\nPresione Enter para continuar...." << endl;
         getline(cin,texto);
         Clear();
-        cout << "╔═════════════════════════════════════════════════════════════════════════════╗" << endl;
-        cout << "║                            INGRESE UN COMANDO                               ║" << endl;
-        cout << "╠═════════════════════════════════════════════════════════════════════════════╣" << endl;
-        cout << "║                             'exit' para salir                               ║" << endl;
-        cout << "╚═════════════════════════════════════════════════════════════════════════════╝" << endl;
-        cout << ">> ";
+        cout << "\033[48;5;13;38;5;15m" << "╔═════════════════════════════════════════════════════════════════════════════╗" << "\033[0m" << endl;
+        cout << "\033[48;5;13;38;5;15m" << "║                            INGRESE UN COMANDO                               ║" << "\033[0m" << endl;
+        cout << "\033[48;5;13;38;5;15m" << "╠═════════════════════════════════════════════════════════════════════════════╣" << "\033[0m" << endl;
+        cout << "\033[48;5;13;38;5;15m" << "║                             'exit' para salir                               ║" << "\033[0m" << endl;
+        cout << "\033[48;5;13;38;5;15m" << "╚═════════════════════════════════════════════════════════════════════════════╝" << "\033[0m" << endl;
+        cout << "\033[38;5;13m" << ">> " << "\033[0m" ;
     }
 }
     
@@ -73,18 +73,18 @@ void scanner::functions(string token, vector<string> tks)
                                   // mkdisk -s=10 -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
                                   // mkdisk -path=/home/rauudy/Documentos/Archivos/Pruebas/hola.dsk -s=10 
     {
-        cout << "FUNCION MKDISK" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MKDISK      " << "\033[0m" << endl;
         disco.mkdisk(tks); // [-size=10, -u=m, -path=/home/hola.dk]
     }else if(compare(token, "RMDISK")){
-        cout << "FUNCION RMDISK" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION RMDISK      " << "\033[0m" << endl;
         disco.rmdisk(tks);
     // rmdisk -path=/home/rauu/Documentos/ProyectoMIA/Pruebas/hola.dsk
     // rmdisk -path=/home/rauudy/Documentos/Archivos/Pruebas/hola.dsk
     }else if(compare(token, "FDISK")){
-        cout << "FUNCION FDISK" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION FDISK       " << "\033[0m" << endl;
         disco.fdisk(tks);
     }else if(compare(token, "MOUNT")){
-        cout << "FUNCION MOUNT" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MOUNT       " << "\033[0m" << endl;
     // mkdisk -s=3000 -u=m -path=/home/rauudy/Pruebas/Disco10.dsk
     // fdisk -s=300 -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1
     // mount -path=/home/rauudy/Pruebas/Disco10.dsk -name=Part1 #id=001Disco1 > 651a , 651b
@@ -92,17 +92,17 @@ void scanner::functions(string token, vector<string> tks)
     // FUNCIONA
         mount.mount(tks);
     }else if(compare(token, "UNMOUNT")){
-        cout << "FUNCION UNMOUNT" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION UNMOUNT     " << "\033[0m" << endl;
         //mount.unmount(tks);
         // unmount -id=631a
         // Funciona cambiar los numeros
         mount.unmount(tks);
     }else if(compare(token, "MKFS")){
-        cout << "FUNCION MKFS" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MKFS        " << "\033[0m" << endl;
         FileSystem fileSystem = FileSystem(mount);
         fileSystem.mkfs(tks);
     }else if(compare(token, "LOGIN")){
-        cout << "FUNCION LOGIN" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION LOGIN       " << "\033[0m" << endl;
         if(logued){
             shared.handler("LOGIN", " ya existe una sesion abierta");
             return;
@@ -110,7 +110,7 @@ void scanner::functions(string token, vector<string> tks)
         logued = user.login(tks,mount);
 
     }else if(compare(token, "LOGOUT")){
-        cout << "FUNCION LOGOUT" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION LOGOUT      "<< "\033[0m" << endl;
         if(!logued){
             shared.handler("LOGOUT", " debe de iniciar sesion primero");
             return;
@@ -122,7 +122,7 @@ void scanner::functions(string token, vector<string> tks)
             shared.handler("MKGRP", " debe de iniciar sesion primero");
             return;
         }
-        cout << "FUNCION MKGRP" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MKGRP       " << "\033[0m" << endl;
         user.grp(tks,"MK");
 
     }else if(compare(token, "RMGRP")){
@@ -130,7 +130,7 @@ void scanner::functions(string token, vector<string> tks)
             shared.handler("RMGRP", " debe de iniciar sesion primero");
             return;
         }
-        cout << "FUNCION RMGRP" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION RMGRP       " << "\033[0m" << endl;
         user.grp(tks,"RM");
 
     }else if(compare(token, "MKUSR")){
@@ -138,7 +138,7 @@ void scanner::functions(string token, vector<string> tks)
             shared.handler("MKUSR", " debe de iniciar sesion primero");
             return;
         }
-        cout << "FUNCION MKUSR" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MKUSR       " << "\033[0m" << endl;
         user.usr(tks,"MK");
 
     }else if(compare(token, "RMUSR")){
@@ -146,7 +146,7 @@ void scanner::functions(string token, vector<string> tks)
             shared.handler("RMUSR", " debe de iniciar sesion primero");
             return;
         }
-        cout << "FUNCION RMUSR" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION RMUSR       " << "\033[0m" << endl;
         user.usr(tks,"RM");
 
     }else if(compare(token, "MKDIR")){
@@ -155,19 +155,22 @@ void scanner::functions(string token, vector<string> tks)
             return;
         }
         string p;
-        cout << "FUNCION MKDIR" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION MKDIR       " << "\033[0m" << endl;
         FileSystem fileSystem = FileSystem(mount);
         Structs::Partition partition = mount.getmount(user.logged.id, &p);
         filemanager.mkdir(tks, partition, p);
     }else if(compare(token, "REP")){
-        cout << "FUNCION REPORTES" << endl;
+        cout << "\033[48;5;226;38;5;0m" << "        FUNCION REPORTES        " << "\033[0m" << endl;
         report.generar(tks, mount);
     }else if(compare(token, "EXEC")){
-        cout << "FUNCION EXEC" << endl;
+        cout << "\033[48;5;39;38;5;0m" << "        FUNCION EXEC        " << "\033[0m" << endl;
         funcion_excec(tks);
     }else if(compare(token.substr(0,1),"#")){
         respuesta("COMENTARIO",token);
     }else if(compare(token, "PAUSE")){
+        string pause;
+        respuesta("PAUSE","Presione enter para continuar...");
+        getline(cin,pause);
     }else if(compare(token, "CLS")){
         Clear();
     }else{
@@ -301,13 +304,16 @@ void scanner::respuesta(string operacion, string mensaje){
     {
         cout << "\033[1;35;44m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
         return;
-    }else{
+    }else if(compare(operacion, "PAUSE")){
+        cout << "\033[1;16;47m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
+    }
+    else{
         cout << "\033[1;32;47m(" + operacion + ")~~> \033[0m"<< mensaje << endl;
     }
 }
 
 bool scanner::confirmar(string mensaje){
-    cout << mensaje << "Confirmar(S), cualquier otra letra para cancelar" << endl;
+    cout << mensaje << "Confirmar(S), cualquier otra letra para cancelar: ";
     string respuesta;
     getline(cin,respuesta);
     if (compare(respuesta, "s"))
