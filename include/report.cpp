@@ -116,8 +116,8 @@ void Report::mbr(string p, string id) {
                   "forcelabels= true;\n"
                   "node [shape = plaintext];\n"
                   "general [label = <<table>\n"
-                  "<tr><td COLSPAN = '2' BGCOLOR=\"#102027\"><font color=\"white\">MBR</font></td></tr>\n"
-                  "<tr><td BGCOLOR=\"#ff6f00\">NOMBRE</td><td BGCOLOR=\"#ff6f00\" >VALOR</td></tr>\n"
+                  "<tr><td COLSPAN = '2' BGCOLOR=\"#2BCF1B\"><font color=\"black\">MBR</font></td></tr>\n"
+                  "<tr><td BGCOLOR=\"#97FF3A\">NOMBRE</td><td BGCOLOR=\"#97FF3A\" >VALOR</td></tr>\n"
                   "<tr>\n"
                   "<td>mbr_tamaño</td>\n"
                   "<td>" +
@@ -184,10 +184,10 @@ void Report::mbr(string p, string id) {
             vector<Structs::EBR> ebrs = disk.getlogics(extended, path);
             for (Structs::EBR ebr : ebrs) {
                 content += "<tr><td BORDER=\"0\"></td><td BORDER=\"0\"></td></tr>"
-                           "<tr><td COLSPAN = '2' BGCOLOR=\"#102027\"><font color=\"white\">EBR_" +
+                           "<tr><td COLSPAN = '2' BGCOLOR=\"#2BCF1B\"><font color=\"black\">EBR_" +
                            to_string(count + 1) +
                            "</font></td></tr>\n"
-                           "<tr><td BGCOLOR=\"#ff6f00\">NOMBRE</td><td BGCOLOR=\"#ff6f00\" >VALOR</td></tr>\n"
+                           "<tr><td BGCOLOR=\"#97FF3A\">NOMBRE</td><td BGCOLOR=\"#97FF3A\" >VALOR</td></tr>\n"
                            "<tr>\n"
                            "<td>part_status_" + to_string(count + 1) + "</td>\n"
                                                                        "<td>" +
