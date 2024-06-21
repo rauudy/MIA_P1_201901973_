@@ -829,19 +829,97 @@ void Disk::deletepartition(string d, string p, string n) {
     }
 }
 
+// void Disk::addpartition(string add, string u, string n, string p) {
+//     try {
+//         int i = stoi(add);
+
+//         if (shared.compare(u, "b") || shared.compare(u, "k") || shared.compare(u, "m")) {
+
+//             if (!shared.compare(u, "b")) {
+//                 i *= (shared.compare(u, "k")) ? 1024 : 1024 * 1024;
+//             }
+//         } else {
+//             throw runtime_error("-u necesita valores específicos");
+//         }
+
+
+//         FILE *file = fopen(p.c_str(), "rb+");
+//         if (file == NULL) {
+//             throw runtime_error("disco no existente");
+//         }
+
+//         Structs::MBR disk;
+//         rewind(file);
+//         fread(&disk, sizeof(Structs::MBR), 1, file);
+
+//         findby(disk, n, p);
+
+//         Structs::Partition partitions[4];
+//         partitions[0] = disk.mbr_Partition_1;
+//         partitions[1] = disk.mbr_Partition_2;
+//         partitions[2] = disk.mbr_Partition_3;
+//         partitions[3] = disk.mbr_Partition_4;
+
+
+//         for (int i = 0; i < 4; i++) {
+//             if (partitions[i].part_status == '1') {
+//                 if (shared.compare(partitions[i].part_name, n)) {
+//                     if ((partitions[i].part_size + (i)) > 0) {
+//                         if (i != 3) {
+//                             if (partitions[i + 1].part_start != 0) {
+//                                 if (((partitions[i].part_size + (i) +
+//                                       partitions[i].part_start) <=
+//                                      partitions[i + 1].part_start)) {
+//                                     partitions[i].part_size += i;
+//                                     break;
+//                                 } else {
+//                                     throw runtime_error("se sobrepasa el límite");
+//                                 }
+//                             }
+//                         }
+//                         if ((partitions[i].part_size + i +
+//                              partitions[i].part_start) <= disk.mbr_tamano) {
+//                             partitions[i].part_size += i;
+//                             break;
+//                         } else {
+//                             throw runtime_error("se sobrepasa el límite");
+//                         }
+
+//                     }
+//                 }
+//             }
+//         }
+
+//         disk.mbr_Partition_1 = partitions[0];
+//         disk.mbr_Partition_2 = partitions[1];
+//         disk.mbr_Partition_3 = partitions[2];
+//         disk.mbr_Partition_4 = partitions[3];
+
+//         rewind(file);
+//         fwrite(&disk, sizeof(Structs::MBR), 1, file);
+//         shared.response("FDISK", "la partición se ha aumentado correctamente");
+//         fclose(file);
+//     }
+//     catch (exception &e) {
+//         shared.handler("FDISK", e.what());
+//         return;
+//     }
+
+// }
+
 void Disk::addpartition(string add, string u, string n, string p) {
     try {
-        int i = stoi(add);
+        int size_change = stoi(add);
 
         if (shared.compare(u, "b") || shared.compare(u, "k") || shared.compare(u, "m")) {
-
-            if (!shared.compare(u, "b")) {
-                i *= (shared.compare(u, "k")) ? 1024 : 1024 * 1024;
+            if (shared.compare(u, "k")) {
+                size_change *= 1024;
+            } else if (shared.compare(u, "m")) {
+                size_change *= 1024 * 1024;
             }
         } else {
             throw runtime_error("-u necesita valores específicos");
         }
-
 
         FILE *file = fopen(p.c_str(), "rb+");
         if (file == NULL) {
@@ -852,57 +930,46 @@ void Disk::addpartition(string add, string u, string n, string p) {
         rewind(file);
         fread(&disk, sizeof(Structs::MBR), 1, file);
 
-        findby(disk, n, p);
+        Structs::Partition *partitions[4] = {&disk.mbr_Partition_1, &disk.mbr_Partition_2, &disk.mbr_Partition_3, &disk.mbr_Partition_4};
 
-        Structs::Partition partitions[4];
-        partitions[0] = disk.mbr_Partition_1;
-        partitions[1] = disk.mbr_Partition_2;
-        partitions[2] = disk.mbr_Partition_3;
-        partitions[3] = disk.mbr_Partition_4;
-
-
+        bool partition_found = false;
         for (int i = 0; i < 4; i++) {
-            if (partitions[i].part_status == '1') {
-                if (shared.compare(partitions[i].part_name, n)) {
-                    if ((partitions[i].part_size + (i)) > 0) {
-                        if (i != 3) {
-                            if (partitions[i + 1].part_start != 0) {
-                                if (((partitions[i].part_size + (i) +
-                                      partitions[i].part_start) <=
-                                     partitions[i + 1].part_start)) {
-                                    partitions[i].part_size += i;
-                                    break;
-                                } else {
-                                    throw runtime_error("se sobrepasa el límite");
-                                }
-                            }
-                        }
-                        if ((partitions[i].part_size + i +
-                             partitions[i].part_start) <= disk.mbr_tamano) {
-                            partitions[i].part_size += i;
-                            break;
-                        } else {
-                            throw runtime_error("se sobrepasa el límite");
-                        }
+            if (partitions[i]->part_status == '1' && shared.compare(partitions[i]->part_name, n)) {
+                int new_size = partitions[i]->part_size + size_change;
+                
+                if (new_size <= 0) {
+                    throw runtime_error("El nuevo tamaño de la partición sería menor o igual a cero");
+                }
 
+                int available_space = disk.mbr_tamano - partitions[i]->part_start;
+                for (int j = i + 1; j < 4; j++) {
+                    if (partitions[j]->part_status == '1') {
+                        available_space = partitions[j]->part_start - partitions[i]->part_start;
+                        break;
                     }
                 }
+
+                if (new_size > available_space) {
+                    throw runtime_error("No hay espacio suficiente para aumentar la partición");
+                }
+
+                partitions[i]->part_size = new_size;
+                partition_found = true;
+                break;
             }
         }
 
-        disk.mbr_Partition_1 = partitions[0];
-        disk.mbr_Partition_2 = partitions[1];
-        disk.mbr_Partition_3 = partitions[2];
-        disk.mbr_Partition_4 = partitions[3];
+        if (!partition_found) {
+            throw runtime_error("No se encontró la partición especificada");
+        }
 
         rewind(file);
         fwrite(&disk, sizeof(Structs::MBR), 1, file);
-        shared.response("FDISK", "la partición se ha aumentado correctamente");
         fclose(file);
+
+        shared.response("FDISK", "La partición se ha modificado correctamente");
     }
     catch (exception &e) {
         shared.handler("FDISK", e.what());
-        return;
     }
-
 }
