@@ -33,9 +33,6 @@ void Clear()
 void scanner::start()
 {
     system("clear");
-    // cout << "------------------------------INGRESE UN COMANDO------------------------------\n" << endl;
-    // cout << "--------------------------------exit para salir-------------------------------\n" << endl;
-    // cout << ">>";
     cout << "\033[48;5;13;38;5;15m" << "╔═════════════════════════════════════════════════════════════════════════════╗" << "\033[0m" << endl;
     cout << "\033[48;5;13;38;5;15m" << "║                            INGRESE UN COMANDO                               ║" << "\033[0m" << endl;
     cout << "\033[48;5;13;38;5;15m" << "╠═════════════════════════════════════════════════════════════════════════════╣" << "\033[0m" << endl;
@@ -91,6 +88,7 @@ void scanner::functions(string token, vector<string> tks)
     // con un +1 da 652a, 652b, 652c
     // FUNCIONA
         mount.mount(tks);
+        mount.listmount();
     }else if(compare(token, "UNMOUNT")){
         cout << "\033[48;5;226;38;5;0m" << "        FUNCION UNMOUNT     " << "\033[0m" << endl;
         //mount.unmount(tks);

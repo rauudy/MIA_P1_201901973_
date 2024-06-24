@@ -19,13 +19,19 @@ RMdisk -path="/home/archivos/Discos/mis archivos/Disco4.dsk"
 
 #CREACION DE PARTICION
 fdisk -t=P -u=K -name=Part1 -s=7680 -path=/home/archivos/Discos/Disco1.dsk -f=BF
+7864320 - 
+fdisk -add=10 -u=k -path=/home/archivos/Discos/Disco1.dsk -name=Part1
+20480
+fdisk -t=E -u=K -name=Particion2 -s=20 -path=/home/archivos/Discos/Disco1.dsk
+fdisk -add=2 -u=k -path=/home/archivos/Discos/Disco1.dsk -name=Particion2
+
 #MOUNT
 mount -path=/home/archivos/Discos/Disco1.dsk -name=Part1 #731a
 #CREACION DE SISTEMA DE ARCHIVOS
 pause
 
 #------------------------REPORTES 1----------------
-rep -id=731a -path="/home/archivos/reportes/reporte1_sb.jpg" -name=sb
+rep -id=731a -path="/home/archivos/reportes/reporte1_sb.jpg" -name=mbr
 rep -id=731a -path="/home/archivos/reportes/reporte1_tree.jpg" -name=tree
 pause
 

@@ -46,6 +46,67 @@ void Mount::mount(vector<string> context) {
     mount(path, name);
 }
 
+// void Mount::mount(string p, string n) {
+//     try {
+//         FILE *validate = fopen(p.c_str(), "r");
+//         if (validate == NULL) {
+//             throw runtime_error("disco no existente");
+//         }
+
+//         Structs::MBR disk;
+//         rewind(validate);
+//         fread(&disk, sizeof(Structs::MBR), 1, validate);
+//         fclose(validate);
+
+//         Structs::Partition partition = dsk.findby(disk, n, p);
+//         if (partition.part_type == 'E') {
+//             vector<Structs::EBR> ebrs = dsk.getlogics(partition, p);
+//             if (!ebrs.empty()) {
+//                 Structs::EBR ebr = ebrs.at(0);
+//                 n = ebr.part_name;
+                
+//             } else {
+//                 throw runtime_error("no se puede montar una extendida");
+//             }
+//         }
+
+//         for (int i = 0; i < 99; i++) {
+//             if (mounted[i].path == p) {
+//                 for (int j = 0; j < 26; j++) {
+//                     if (Mount::mounted[i].mpartitions[j].status == '0') {
+//                         mounted[i].mpartitions[j].status = '1';
+//                         mounted[i].mpartitions[j].letter = alfabeto.at(j);
+//                         strcpy(mounted[i].mpartitions[j].name, n.c_str());
+//                         string re = to_string(i + 1) + alfabeto.at(j);
+//                         shared.response("MOUNT", "se ha realizado correctamente el mount -id=73" + re);
+//                         return;
+//                     }
+//                 }
+//             }
+//         }
+//         for (int i = 0; i < 99; i++) {
+//             if (mounted[i].status == '0') {
+//                 mounted[i].status = '1';
+//                 strcpy(mounted[i].path, p.c_str());
+//                 for (int j = 0; j < 26; j++) {
+//                     if (Mount::mounted[i].mpartitions[j].status == '0') {
+//                         mounted[i].mpartitions[j].status = '1';
+//                         mounted[i].mpartitions[j].letter = alfabeto.at(j);
+//                         strcpy(mounted[i].mpartitions[j].name, n.c_str());
+//                         string re = to_string(i + 1) + alfabeto.at(j);
+//                         shared.response("MOUNT", "se ha realizado correctamente el mount -id=73" + re);
+//                         return;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     catch (exception &e) {
+//         shared.handler("MOUNT", e.what());
+//         return;
+//     }
+// }
+
 void Mount::mount(string p, string n) {
     try {
         FILE *validate = fopen(p.c_str(), "r");
@@ -64,48 +125,63 @@ void Mount::mount(string p, string n) {
             if (!ebrs.empty()) {
                 Structs::EBR ebr = ebrs.at(0);
                 n = ebr.part_name;
-                
             } else {
                 throw runtime_error("no se puede montar una extendida");
             }
         }
 
+        // Buscar si el disco ya está montado
+        int diskIndex = -1;
         for (int i = 0; i < 99; i++) {
-            if (mounted[i].path == p) {
-                for (int j = 0; j < 26; j++) {
-                    if (Mount::mounted[i].mpartitions[j].status == '0') {
-                        mounted[i].mpartitions[j].status = '1';
-                        mounted[i].mpartitions[j].letter = alfabeto.at(j);
-                        strcpy(mounted[i].mpartitions[j].name, n.c_str());
-                        string re = to_string(i + 1) + alfabeto.at(j);
-                        shared.response("MOUNT", "se ha realizado correctamente el mount -id=73" + re);
-                        return;
-                    }
+            if (mounted[i].status == '1' && strcmp(mounted[i].path, p.c_str()) == 0) {
+                diskIndex = i;
+                break;
+            }
+        }
+
+        // Si el disco no está montado, montar en el primer espacio libre
+        if (diskIndex == -1) {
+            for (int i = 0; i < 99; i++) {
+                if (mounted[i].status == '0') {
+                    diskIndex = i;
+                    mounted[i].status = '1';
+                    strcpy(mounted[i].path, p.c_str());
+                    break;
                 }
             }
         }
-        for (int i = 0; i < 99; i++) {
-            if (mounted[i].status == '0') {
-                mounted[i].status = '1';
-                strcpy(mounted[i].path, p.c_str());
-                for (int j = 0; j < 26; j++) {
-                    if (Mount::mounted[i].mpartitions[j].status == '0') {
-                        mounted[i].mpartitions[j].status = '1';
-                        mounted[i].mpartitions[j].letter = alfabeto.at(j);
-                        strcpy(mounted[i].mpartitions[j].name, n.c_str());
-                        string re = to_string(i + 1) + alfabeto.at(j);
-                        shared.response("MOUNT", "se ha realizado correctamente el mount -id=73" + re);
-                        return;
-                    }
-                }
+
+        if (diskIndex == -1) {
+            throw runtime_error("no hay espacio para montar más discos");
+        }
+
+        // Verificar si la partición ya está montada
+        for (int j = 0; j < 26; j++) {
+            if (mounted[diskIndex].mpartitions[j].status == '1' && 
+                strcmp(mounted[diskIndex].mpartitions[j].name, n.c_str()) == 0) {
+                throw runtime_error("la partición ya está montada");
             }
         }
+
+        // Buscar el primer espacio libre para montar la partición
+        for (int j = 0; j < 26; j++) {
+            if (mounted[diskIndex].mpartitions[j].status == '0') {
+                mounted[diskIndex].mpartitions[j].status = '1';
+                mounted[diskIndex].mpartitions[j].letter = alfabeto.at(j);
+                strcpy(mounted[diskIndex].mpartitions[j].name, n.c_str());
+                string re = to_string(diskIndex + 1) + alfabeto.at(j);
+                shared.response("MOUNT", "se ha realizado correctamente el mount -id=73" + re);
+                return;
+            }
+        }
+        throw runtime_error("no hay espacio para montar más particiones en este disco");
     }
     catch (exception &e) {
         shared.handler("MOUNT", e.what());
         return;
     }
 }
+
 
 void Mount::unmount(vector<string> context) {
     vector<string> required = {"id"};
@@ -207,7 +283,7 @@ void Mount::listmount() {
     for (int i = 0; i < 99; i++) {
         for (int j = 0; j < 26; j++) {
             if (mounted[i].mpartitions[j].status == '1') {
-                cout << "> 87" << i + 1 << alfabeto.at(j) << ", " << mounted[i].mpartitions[j].name << endl;
+                cout << "> 73" << i + 1 << alfabeto.at(j) << ", " << mounted[i].mpartitions[j].name << endl;
             }
         }
     }
